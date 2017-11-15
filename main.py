@@ -41,12 +41,12 @@ def load_vgg(sess, vgg_path):
     
     image_input    = graph.get_tensor_by_name(vgg_input_tensor_name)
     keep_prob      = graph.get_tensor_by_name(vgg_keep_prob_tensor_name)
-    vgg_layer3_out = graph.get_tensor_by_name(vgg_layer3_out_tensor_name)   
-    vgg_layer4_out = graph.get_tensor_by_name(vgg_layer4_out_tensor_name) 
-    vgg_layer7_out = graph.get_tensor_by_name(vgg_layer7_out_tensor_name) 
+    layer3_out = graph.get_tensor_by_name(vgg_layer3_out_tensor_name)   
+    layer4_out = graph.get_tensor_by_name(vgg_layer4_out_tensor_name) 
+    layer7_out = graph.get_tensor_by_name(vgg_layer7_out_tensor_name) 
     #AMN
     
-    return vgg_input, keep_prob, vgg_layer3_out, vgg_layer4_out, vgg_layer7_out
+    return image_input, keep_prob, layer3_out, layer4_out, layer7_out
 
 tests.test_load_vgg(load_vgg, tf)
 
@@ -61,8 +61,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     :return: The Tensor for the last layer of output
     """
     # TODO: Implement function
-    
-    #AMN
+
     vgg_layer7_conv1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, strides=(1,1), padding='same', kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     vgg_layer4_conv1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, strides=(1,1), padding='same', kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     vgg_layer3_conv1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, strides=(1,1), padding='same', kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
