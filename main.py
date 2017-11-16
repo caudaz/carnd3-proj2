@@ -33,18 +33,13 @@ def load_vgg(sess, vgg_path):
     vgg_layer4_out_tensor_name = 'layer4_out:0'
     vgg_layer7_out_tensor_name = 'layer7_out:0'
 
-    #AMN
-    
     tf.saved_model.loader.load(sess, [vgg_tag], vgg_path)
     
-    graph = tf.get_default_graph()
-    
-    image_input    = graph.get_tensor_by_name(vgg_input_tensor_name)
-    keep_prob      = graph.get_tensor_by_name(vgg_keep_prob_tensor_name)
-    layer3_out = graph.get_tensor_by_name(vgg_layer3_out_tensor_name)   
-    layer4_out = graph.get_tensor_by_name(vgg_layer4_out_tensor_name) 
-    layer7_out = graph.get_tensor_by_name(vgg_layer7_out_tensor_name) 
-    #AMN
+    image_input = tf.get_default_graph().get_tensor_by_name(vgg_input_tensor_name)
+    keep_prob   = tf.get_default_graph().get_tensor_by_name(vgg_keep_prob_tensor_name)
+    layer3_out  = tf.get_default_graph().get_tensor_by_name(vgg_layer3_out_tensor_name)   
+    layer4_out  = tf.get_default_graph().get_tensor_by_name(vgg_layer4_out_tensor_name) 
+    layer7_out  = tf.get_default_graph().get_tensor_by_name(vgg_layer7_out_tensor_name) 
     
     return image_input, keep_prob, layer3_out, layer4_out, layer7_out
 
@@ -77,7 +72,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     layer9_output = tf.add(layer9_input, vgg_layer3_conv1x1)    
 
     nn_last_layer = tf.layers.conv2d_transpose(layer9_output,      num_classes, 16, strides=(8,8), padding='same', kernel_initializer= tf.random_normal_initializer(stddev=0.01), kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-	   
+
     return nn_last_layer
 
 tests.test_layers(layers)
@@ -99,7 +94,8 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
 
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
 
-    train_op = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cross_entropy_loss)
+    optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate)
+    train_op  = optimizer.minimize(cross_entropy_loss)
     
     return logits, train_op, cross_entropy_loss
 
