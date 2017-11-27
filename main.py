@@ -187,17 +187,17 @@ def run():
         # TODO: Save inference data using helper.save_inference_samples
         helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, image_input)
 
-		# SAVE model
+        # SAVE model
         saver = tf.train.Saver()
         saver.save(sess, './runs/ss_model.ckpt')
-		# save graph
+        # save graph
         tf.train.write_graph(tf.get_default_graph().as_graph_def(), '', './runs/base_graph.pb', as_text=False)
         # save "frozen" graph (variables are converted to constants)
-		output_node_names = 'adam_logit'
+        output_node_names = 'adam_logit'
         output_graph_def = tf.graph_util.convert_variables_to_constants(sess, tf.get_default_graph().as_graph_def(),output_node_names.split(",")) 
         tf.train.write_graph(output_graph_def, '', './runs/frozen_graph.pb', as_text=False)
-        print("# of operations in the final graph=", len(output_graph_def.node))		
-		
+        print("# of operations in the final graph=", len(output_graph_def.node))        
+        
         # OPTIONAL: Apply the trained model to a video
 
 
