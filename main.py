@@ -47,7 +47,7 @@ def load_vgg(sess, vgg_path):
     
     #a = tf.Print(layer7_out, [tf.shape(layer7_out)], message="This is a: ")
     #b = tf.add(a, a).eval()
-    print(sess.run(tf.shape(layer7_out)))
+    
 
     return image_input, keep_prob, layer3_out, layer4_out, layer7_out
 
@@ -185,6 +185,7 @@ def run():
         batch_size = 4
         
         print("training - start time=", time.time())
+        print(sess.run(tf.shape(layer7_out)))
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, image_input, correct_label, keep_prob, learning_rate)
         print("training - start time=", time.time())
         
