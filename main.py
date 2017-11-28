@@ -185,8 +185,11 @@ def run():
         batch_size = 4
         
         print("training - start time=", time.time())
-        #print(sess.run(tf.shape(vgg_layer7_out)))
-        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, image_input, correct_label, keep_prob, learning_rate)
+		
+        layer7_1x1 = conv_1x1(vgg_layer7_out, num_classes)
+        layer7_1x1 = tf.Print(layer7_1x1, [tf.shape(layer7_1x1)], message= "Shape of layer7_1x1:", summarize=10, first_n=1)
+        
+		train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, image_input, correct_label, keep_prob, learning_rate)
         print("training - start time=", time.time())
         
         # TODO: Save inference data using helper.save_inference_samples
