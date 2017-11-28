@@ -185,7 +185,7 @@ def run():
         batch_size = 4
         
         print("training - start time=", time.time())
-        print(sess.run(tf.shape(layer7_out)))
+        print(sess.run(tf.shape(vgg_layer7_out)))
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, image_input, correct_label, keep_prob, learning_rate)
         print("training - start time=", time.time())
         
