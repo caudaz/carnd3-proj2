@@ -45,7 +45,8 @@ def load_vgg(sess, vgg_path):
     layer4_out  = tf.get_default_graph().get_tensor_by_name(vgg_layer4_out_tensor_name) 
     layer7_out  = tf.get_default_graph().get_tensor_by_name(vgg_layer7_out_tensor_name) 
     
-    tf.Print(layer7_out, [tf.shape(layer7_out)])
+    a = tf.Print(layer7_out, [tf.shape(layer7_out)], message="This is a: ")
+    b = tf.add(a, a).eval()
 
     return image_input, keep_prob, layer3_out, layer4_out, layer7_out
 
